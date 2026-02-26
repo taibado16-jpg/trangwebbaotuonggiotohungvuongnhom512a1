@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Tường: Hướng Về Nguồn Cội 10/3</title>
+    <style>
+        /* --- 1. Hiệu ứng cuộn mượt cho toàn trang --- */
+html {
+    scroll-behavior: smooth;
+}
+
+/* --- 2. Hiệu ứng các phần tử ẩn đi để chờ xuất hiện --- */
+.reveal-item {
+    position: relative;
+    transform: translateY(100px); /* Dịch xuống dưới 100px */
+    opacity: 0; /* Ẩn đi */
+    transition: all 0.8s ease-out; /* Thời gian hiện ra là 0.8 giây */
+}
+
+/* Khi có thêm class 'active', phần tử sẽ hiện ra */
+.reveal-item.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* --- 3. Nút Lên đầu trang (Back to Top) --- */
+#myBtn {
+    display: none; /* Ẩn mặc định */
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: #8b0000; /* Màu đỏ chủ đạo */
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%; /* Hình tròn */
+    font-size: 18px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+#myBtn:hover {
+    background-color: #d4af37; /* Đổi màu vàng khi di chuột */
+    transform: scale(1.1); /* Phóng to nhẹ */
+}
+   /* Thiết kế Card Thành Viên mới */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.member-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    text-align: center;
+    transition: all 0.4s ease;
+    border: 1px solid #e2d1b3;
+    position: relative;
+    padding-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.member-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(139, 0, 0, 0.15);
+    border-color: #d4af37;
+}
+
+.member-image-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: #f0f0f0;
+}
+
+.member-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.member-card:hover img {
+    transform: scale(1.1);
+}
+
+.member-info {
+    padding: 15px;
+}
+
+.member-info h4 {
+    color: #8b0000;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.member-role {
+    display: inline-block;
+    background: #8b0000;
+    color: #ffd700;
+    padding: 2px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.member-task {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+    padding: 0 10px;
+}
+
+/* Hiệu ứng đường kẻ dưới tên */
+.member-info::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: #d4af37;
+    margin: 10px auto;
+}
+    /* Container nền cho đồng hồ */
+.countdown-box {
+    background: radial-gradient(circle, #4a0000 0%, #ba0e0ed8 100%);
+    padding: 50px 20px;
+    border-radius: 30px;
+    border: 2px solid #d4af37;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(212, 175, 55, 0.2);
+    margin: 40px auto;
+    max-width: 800px;
+}
+
+.countdown-box h2 {
+    font-family: 'Playfair Display', serif;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 35px;
+    font-size: 1.8rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* Bố cục lưới đồng hồ */
+.countdown-timer-ultra {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* Từng khối số - Thiết kế chiều sâu 3D */
+.time-unit {
+    position: relative;
+    background: #530404ff;
+    padding: 20px 10px;
+    border-radius: 15px;
+    border-bottom: 5px solid #d4af37;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.6);
+}
+
+/* Đường cắt ngang tạo hiệu ứng đồng hồ lật */
+.time-unit::before {
+    content: "";
+    position: absolute;
+    top: 50%; left: 0;
+    width: 100%; height: 2px;
+    background: rgba(0,0,0,0.5);
+    z-index: 2;
+}
+
+.time-unit span {
+    display: block;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #f1c40f;
+    font-family: 'Orbitron', sans-serif; /* Bạn nên thêm link Google Font Orbitron */
+    text-shadow: 0 0 20px rgba(241, 196, 15, 0.4);
+    line-height: 1;
+}
+
+.time-unit label {
+    display: block;
+    margin-top: 10px;
+    color: #fff;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    opacity: 0.7;
+}
+
+/* Hiệu ứng nhấp nháy cho dấu hai chấm hoặc giây */
+#seconds {
+    color: #e74c3c;
+    text-shadow: 0 0 20px rgba(231, 76, 60, 0.5);
+}
+
+/* Responsive cho mobile */
+@media (max-width: 600px) {
+    .countdown-timer-ultra { grid-template-columns: repeat(2, 1fr); }
+    .time-unit span { font-size: 2.5rem; }
+}
+    /* Style cho thẻ bình luận mới */
+.comment-card {
+    background: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border-left: 5px solid #8b0000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.comment-card h4 { color: #8b0000; margin-bottom: 5px; }
+.comment-card p { margin-bottom: 10px; }
+.comment-card img { 
+    max-width: 100%; 
+    max-height: 300px; 
+    border-radius: 8px; 
+    display: block; 
+    margin: 10px 0;
+    border: 1px solid #ddd;
+}
+.comment-card small { color: #888; font-size: 0.8rem; }
+
+/* Khu vực xem trước ảnh khi chọn file */
+#image-preview {
+    display: none;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 10px;
+    border: 2px dashed #d4af37;
+}
+    header {
+    height: 60vh; /* Tăng chiều cao để tạo sự hùng vĩ */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: #000; /* Nền đen để nổi bật hiệu ứng ánh sáng */
+    text-align: center;
+}
+
+/* Lớp nền hình ảnh có hiệu ứng Zoom chậm */
+header::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8)), 
+                      url('https://images.unsplash.com/photo-1599708153386-62e2d3637172?auto=format&fit=crop&q=80&w=2000');
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    animation: slowZoom 20s infinite alternate;
+}
+
+/* Hiệu ứng màng sương khói mờ ảo */
+header::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.4) 100%);
+    z-index: 2;
+}
+
+/* Nội dung chữ */
+.header-content {
+    position: relative;
+    z-index: 10;
+    padding: 0 20px;
+}
+
+header h1 {
+    font-size: clamp(2.5rem, 8vw, 5rem); /* Tự động co giãn cỡ chữ */
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    margin-bottom: 10px;
+    background: linear-gradient(to bottom, #ffd700 20%, #ff8c00 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+    animation: fadeInUp 1.5s ease-out;
+}
+
+header p {
+    font-size: 1.5rem;
+    color: #f0f0f0;
+    font-style: italic;
+    letter-spacing: 2px;
+    animation: fadeInUp 2s ease-out;
+    opacity: 0.9;
+}
+
+/* Đường kẻ trang trí vàng kim */
+.gold-line {
+    width: 150px;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #ffd700, transparent);
+    margin: 20px auto;
+    animation: stretch 2s ease-in-out;
+}
+
+/* Các hiệu ứng chuyển động */
+@keyframes slowZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes stretch {
+    from { width: 0; }
+    to { width: 150px; }
+}
+      
+/* --- THANH ĐIỀU HƯỚNG HIỆU ỨNG KÍNH MỜ (GLASSMORPHISM) --- */
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(44, 0, 0, 0.85); /* Đỏ đô trong suốt */
+    backdrop-filter: blur(15px); /* Làm mờ hậu cảnh - cực kỳ sang trọng */
+    -webkit-backdrop-filter: blur(15px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 0;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+/* --- NÚT ĐIỀU HƯỚNG SIÊU TƯƠNG TÁC --- */
+  nav a {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #ffd700;
+    padding: 12px 24px;
+    margin: 0 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Hiệu ứng nảy khi hover */
+    border-radius: 50px; /* Bo tròn hoàn toàn tạo cảm giác hiện đại */
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Khoảng cách giữa icon và chữ */
+}
+
+/* Hiệu ứng khi di chuột vào */
+  nav a :hover {
+    background: rgba(212, 175, 55, 0.15);
+    color: #ffffff;
+    transform: translateY(-5px) scale(1.05); /* Bay lên nhẹ */
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+}
+/* Tab đang hoạt động (Active) */
+  nav a {
+    background: linear-gradient(135deg, #d4af37 0%, #f9e27d 100%); /* Vàng kim gradient */
+    color: #8b0000 !important;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+}
+  
+  
+}
+       /* Style cho đồng hồ đếm ngược */
+.countdown-container {
+    background: #999;
+    color: #ffff00;
+    padding: 20px;
+    text-align: center;
+    border-top: 2px solid #ffd700;
+    border-bottom: 2px solid #ffd700;
+}
+
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.time-segment {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 8px;
+    min-width: 70px;
+    border: 1px solid #d4af37;
+}
+
+.time-segment span {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.time-segment label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+<div class="countdown-container">
+    <h2>ĐẾM NGƯỢC ĐẾN GIỖ TỔ HÙNG VƯƠNG (10/3 ÂM LỊCH)</h2>
+    <div class="countdown-timer" id="timer">
+        <div class="time-segment">
+            <span id="days">00</span>
+            <label>Ngày</label>
+        </div>
+        <div class="time-segment">
+            <span id="hours">00</span>
+            <label>Giờ</label>
+        </div>
+        <div class="time-segment">
+            <span id="minutes">00</span>
+            <label>Phút</label>
+        </div>
+        <div class="time-segment">
+            <span id="seconds">00</span>
+            <label>Giây</label>
+        </div>
+    </div>
+</div>
+        /* Bài 11: Box Model & Reset */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Times New Roman', serif; background-color: #fdfaf4; color: #333; line-height: 1.8; }
+
+        /* Header & Navigation */
+        header { background: #8b0000; color: #ffd700; padding: 50px 20px; text-align: center; border-bottom: 5px solid #ffd700; }
+        header h1 { font-size: 35px; text-transform: uppercase; letter-spacing: 2px; }
+        
+        nav  { background: #5d0000; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        nav a { color: #ffd700; padding: 15px 25px; text-decoration: none; font-weight: bold; font-size: 1.1rem; }
+        nav a:hover { background: #ffd700; color: #5d0000; }
+
+        /* Layout Container - Bài 11 */
+        .main-container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+
+        /* Các khối nội dung */
+        section { background: white; padding: 35px; margin-bottom: 30px; border-radius: 8px; border: 1px solid #e2d1b3; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h2 { color: #8b0000; border-left: 5px solid #8b0000; padding-left: 15px; margin-bottom: 20px; text-transform: uppercase; }
+        h3 { color: #5d0000; margin-top: 20px; border-bottom: 1px solid #eee; }
+
+        /* Lời ngỏ & Thông điệp */
+        .loi-ngo { background: #fffcf0; border: 2px solid #ffd700; padding: 25px; font-style: italic; border-radius: 10px; margin-bottom: 30px; }
+        .thong-diep { text-align: center; font-size: 1.2rem; font-weight: bold; color: #8b0000; padding: 20px; border: 2px dashed #8b0000; margin: 25px 0; }
+        .gioi-thieu { background: #fffcf0; border: 2px solid #ffd700; padding: 25px; font-style: italic; border-radius: 10px; margin-bottom: 30px; }
+        /* Media - Bài 5 */
+        .image-box { text-align: center; margin: 25px 0; }
+        .image-box img { max-width: 100%; border-radius: 5px; border: 3px solid #f0f0f0; }
+        .caption { display: block; font-size: 0.9rem; color: #666; margin-top: 10px; }
+
+        /* Bảng */
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #d4c4a8; padding: 12px; text-align: left; }
+        th { background: #8b0000; color: white; }
+
+        /* Form Góp ý*/
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #d4c4a8; border-radius: 4px; }
+        .btn-submit { background: #8b0000; color: #ffd700; padding: 12px 30px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .btn-submit:hover { background: #5d0000; }
+
+        footer { background: #2c1e14; color: #ffd700; text-align: center; padding: 40px; }
+    </style>
+       <style>
+
+        :root {
+
+            --primary-color: #d4af37; 
+
+            --secondary-color: #d3a1a17a;
+
+            --hover-color: #ff4500; /* Màu cam đỏ khi nổi bật */
+
+        }
+
+
+        body {
+
+            font-family: 'Segoe UI', Arial, sans-serif;
+
+            margin: 0;
+
+            background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), 
+
+                              url('https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=2000');
+
+            background-attachment: fixed;
+
+            background-size: cover;
+
+            background-position: center;
+
+            color: #333;
+
+        }
+
+
+        /* --- NÂNG CẤP HEADER VỚI HÌNH NỀN MỚI VÀ LOGO --- */
+header {
+    height: 65vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    text-align: center;
+    border-bottom: 5px solid #d4af37;
+}
+/* Hình nền banner mới: Trống đồng / Lễ hội */
+header::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8)), 
+                      url('https://scontent.fdad1-4.fna.fbcdn.net/v/t1.15752-9/623786743_928245699625608_3869313947194279288_n.jpg?stp=dst-jpg_s552x414_tt6&_nc_cat=100&ccb=1-7&_nc_sid=0024fc&_nc_eui2=AeGMUZVJt1Xleq2odK5PvDpcn1Q-D6j3bP-fVD4PqPds_-L1SgClxy3YlXQqu8QWhm7xc-ZXDLkN8cRb3Y7slp82&_nc_ohc=rJaThQZg-k4Q7kNvwFupch_&_nc_oc=AdmjNpriJuQlGVyxQRM2PIRNd7Kd62hgNnxsiWjaUtoMlRmMZNJKUfAYPbMPIF4vd0qSUPoBgV4vKy59eqKdiYas&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent.fdad1-4.fna&oh=03_Q7cD4gHocS5sPQVy03Ejn1yCZwvBpEtaZTHN8g8PvBXoIMsRSg&oe=69AE6D3B');
+ /* Bạn có thể thay URL ảnh khác ở đây */
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    animation: slowZoom 20s infinite alternate;
+}
+
+/* Logo nhóm nằm trên banner */
+.group-logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+}
+
+.group-logo img {
+    width: 100px;
+    height:100px;
+    border-radius: 50%;
+    border: 2px solid #ffd700;
+    object-fit: cover;
+}
+
+.group-logo span {
+    color: #ffd700;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.header-content {
+    position: relative;
+    z-index: 10;
+    padding: 0 20px;
+}
+
+header h1 {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    margin-bottom: 10px;
+    background: linear-gradient(to bottom, #ffd700 20%, #ff8c00 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+    animation: fadeInUp 1.5s ease-out;
+}
+
+        /* --- PHẦN MENU NỔI BẬT --- */
+
+        nav  {
+
+            display: flex;
+
+            justify-content: center;
+
+            background-color: rgba(34, 34, 34, 0.9);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            padding: 10px 0;
+
+        }
+
+
+        nav a {
+
+            background: none;
+
+            border: 2px solid transparent;
+
+            color: var(--primary-color);
+
+            padding: 12px 25px;
+
+            margin: 0 10px;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Hiệu ứng nảy */
+
+            border-radius: 30px;
+
+        }
+
+
+        /* Hiệu ứng khi di chuột vào Menu */
+
+         nav a :hover {
+
+            background-color: var(--primary-color);
+
+            color: white;
+
+            transform: scale(1.2); /* Phóng to 1.2 lần */
+
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.6);
+
+            border-color: white;
+
+        }
+
+
+        /* Hiệu ứng cho Tab đang được chọn */
+
+          nav a {
+
+            background-color: var(--secondary-color);
+
+            color: white;
+
+            border-color: var(--primary-color);
+
+            transform: scale(1.1);
+
+        }
+
+
+        .container {
+
+            max-width: 900px;
+
+            margin: 40px auto;
+
+            background: rgba(255, 255, 255, 0.95);
+
+            padding: 40px;
+
+            border-radius: 20px;
+
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+
+        }
+
+
+        .tab-content { display: none; animation: slideIn 0.5s ease-out; }
+
+        .active { display: block; }
+
+
+        @keyframes slideIn {
+
+            from { opacity: 0; transform: translateY(30px); }
+
+            to { opacity: 1; transform: translateY(0); }
+
+        }
+
+
+        /* --- HIỆU ỨNG BẢNG THÀNH VIÊN --- */
+
+        .team-table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin-top: 20px;
+
+        }
+
+
+        .team-table tr {
+
+            transition: all 0.3s;
+
+        }
+
+
+        .team-table th {
+
+            background-color: var(--secondary-color);
+
+            color: white;
+
+            padding: 15px;
+
+        }
+
+
+        .team-table td {
+
+            padding: 15px;
+
+            border-bottom: 1px solid #ddd;
+
+        }
+
+
+        /* Khi di chuột vào từng dòng của bảng */
+
+        .team-table tr:hover td {
+
+            background-color: #fff4d1;
+
+            color: var(--secondary-color);
+
+            font-weight: bold;
+
+            transform: scale(1.02); /* Phóng to nhẹ dòng đó */
+
+            cursor: default;
+
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+
+        }
+
+
+        footer { text-align: center; padding: 30px; background: #222; color: #fff; margin-top: 50px; }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<header>
+    <div class="group-logo">
+        <img src="https://cdn.discordapp.com/attachments/1469673652512489493/1471527959411036304/9k.png?ex=698f42b5&is=698df135&hm=6770591d0cc0b86afed1c5f3d0c5779ca6921d5df8539862ae1df8537ee29c95&" alt="Logo Nhóm">
+        <span>Nhóm 5</span>
+    </div>
+
+    <div class="header-content">
+        <h1>GIỖ TỔ HÙNG VƯƠNG</h1>
+        <div class="gold-line"></div>
+        <p>—  Uống nước nhớ nguồn, hướng về đất Tổ —</p>
+    </div>
+</header>
+
+<nav>
+    <a href="#trangchu">Trang Chủ</a>
+    <a href="#lichsu">Lịch Sử</a>
+    <a href="#lehoi">Lễ Hội</a>
+    <a href="#ynghia">Ý Nghĩa</a>
+    <a href="#gopy">Góp Ý</a>
+</nav>
+
+
+<div class="container">
+
+    
+
+    <section id="trangchu">
+        <h2>Lời Ngỏ</h2>
+            <div class="loi-ngo">
+                <p>"Dù ai đi ngược về xuôi - Nhớ ngày Giỗ Tổ mồng mười tháng ba". Câu ca dao ấy đã in sâu vào tâm thức của mỗi người dân Việt Nam. Trang báo tường này như một nén hương thơm thành kính gửi tới các vị Vua Hùng đã có công dựng nước, đồng thời là nơi để chúng ta cùng ôn lại những giá trị truyền thống quý báu của dân tộc.</p>
+            </div>
+            <h2>Giới thiệu</h2>
+            <div class="gioi-thieu">
+               <p> LỜI MỞ ĐẦU – GIỚI THIỆU Ý NGHĨA NGÀY 10/3</p>
+<p>📅 Ngày 10/3 là ngày gì?</p>
+
+<p>Ngày 10 tháng 3 âm lịch hằng năm là Giỗ Tổ Hùng Vương, ngày lễ truyền thống của dân tộc Việt Nam nhằm tưởng nhớ các Vua Hùng – những người có công dựng nước đầu tiên.</p>
+
+<p>🇻🇳 Ý nghĩa đối với dân tộc Việt Nam</p>
+
+<p>Giỗ Tổ Hùng Vương là biểu tượng của tinh thần đoàn kết dân tộc, khẳng định cội nguồn chung của con cháu Lạc Hồng, đồng thời nhắc nhở mọi người trân trọng và gìn giữ truyền thống lịch sử lâu đời.</p>
+
+<p>🙏 Lòng biết ơn các Vua Hùng</p>
+
+<p>Việc tưởng nhớ các Vua Hùng thể hiện đạo lý “uống nước nhớ nguồn”, lòng biết ơn sâu sắc đối với tổ tiên và là động lực để thế hệ trẻ hôm nay tiếp tục học tập, rèn luyện, xây dựng đất nước ngày càng phát triển.</p>
+            </div>
+            <div class="thong-diep">
+                THÔNG ĐIỆP: "UỐNG NƯỚC NHỚ NGUỒN - GẮN KẾT SỨC MẠNH DÂN TỘC"
+            </div>
+           <div class="countdown-box">
+    <h2>ĐẾM NGƯỢC NGÀY GIỖ TỔ HÙNG VƯƠNG :</h2>
+    <div class="countdown-timer-ultra" id="timer">
+        <div class="time-unit">
+            <span id="days">00</span>
+            <label>Ngày</label>
+        </div>
+        <div class="time-unit">
+            <span id="hours">00</span>
+            <label>Giờ</label>
+        </div>
+        <div class="time-unit">
+            <span id="minutes">00</span>
+            <label>Phút</label>
+        </div>
+        <div class="time-unit">
+            <span id="seconds">00</span>
+            <label>Giây</label>
+        </div>
+    </div>
+</div>
+<script>
+    // Thiết lập ngày Giỗ Tổ 2026 (10/3 Âm lịch = 26/04/2026 Dương lịch)
+    const targetDate = new Date("April 26, 2026 00:00:00").getTime();
+
+    const updateCountdown = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        // Tính toán thời gian
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Hiển thị kết quả
+        document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+        document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+        document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+        document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+
+        // Nếu thời gian kết thúc
+        if (distance < 0) {
+            clearInterval(updateCountdown);
+            document.getElementById("timer").innerHTML = "<h3>HÔM NAY LÀ NGÀY GIỖ TỔ!</h3>";
+        }
+    }, 1000);
+</script>
+ <h2>Thành Viên Nhóm Dự Án</h2>
+<div class="team-grid">
+    <div class="member-card">
+        <div class="member-image-container">
+            <img src="https://cdn.discordapp.com/attachments/1469620364563841188/1476234979041345566/e7ff4168-0488-408d-8cda-a3b444046d8c.jpg?ex=69a06276&is=699f10f6&hm=677779a96d15b662abc0aca5336c2eeab4c40e08e8cf1532631927893966b5dd&" alt="Nguyễn Minh Thuận">
+        </div>
+        <div class="member-info">
+            <span class="member-role">Trưởng nhóm</span>
+            <h4>Nguyễn Minh Thuận</h4>
+            <p class="member-task">Quản lý dự án,phân chia nhiệm vụ.</p>
+        </div>
+    </div>
+
+    <div class="member-card">
+        <div class="member-image-container">
+            <img src="https://cdn.discordapp.com/attachments/1469620364563841188/1472258770913464360/0524b056-18e3-4430-a87a-a02e37064f2f.jpg?ex=6991eb54&is=699099d4&hm=6bc31ad1958f71286578804b544b0dec1f20b7003877c2df94b6040842ac8b93&" alt="Bùi Thị Kiều Oanh">
+        </div>
+        <div class="member-info">
+            <span class="member-role">Thư kí</span>
+            <h4>Bùi Thị Kiều Oanh</h4>
+            <p class="member-task">Ghi chép,phác thảo.</p>
+        </div>
+    </div>
+
+    <div class="member-card">
+        <div class="member-image-container">
+            <img src="https://cdn.discordapp.com/attachments/1469673652512489493/1476228440263889079/54505328-0e72-4f13-a038-048f1321e701.jpg?ex=69a05c5f&is=699f0adf&hm=3dacbce0b97bdb0120118b249bd511d4ba2a392d4b66a080f3008cb1f8ba9c06&" alt="Mai Ngọc Hưng">
+        </div>
+        <div class="member-info">
+            <span class="member-role">Thành viên</span>
+            <h4>Mai Ngọc Hưng</h4>
+            <p class="member-task">Lập trình code.</p>
+        </div>
+    </div>
+<div class="member-card">
+        <div class="member-image-container">
+            <img src="https://cdn.discordapp.com/attachments/1469673652512489493/1476229640602255370/cf790cdb-4b63-4f01-addd-2593c6fbcc9f.jpg?ex=69a05d7d&is=699f0bfd&hm=eb639c98f1bc37f41aa2cfba430d96c6884b3d5dda2d4719fb0d96df41d24882&" alt="Trịnh Thanh Sang">
+        </div>
+        <div class="member-info">
+            <span class="member-role">Thành viên</span>
+            <h4>Trịnh Thanh Sang</h4>
+            <p class="member-task">Lập trình code.</p>
+        </div>
+    </div>
+     <div class="member-card">
+        <div class="member-image-container">
+            <img src="https://cdn.discordapp.com/attachments/1469620364563841188/1476237803837980797/79cc0be9-3e16-4afd-a871-34f06cecd14c.jpg?ex=69a06517&is=699f1397&hm=7d4da7fee0b5c901d5b4929c306b84b283efc0b8f8785ccf4673763e5e239348&" alt="Nguyễn Thị Yến Như">
+        </div>
+        <div class="member-info">
+            <span class="member-role">Thành viên </span>
+            <h4>Nguyễn Thị Yến Như</h4>
+            <p class="member-task">Phác thảo,tìm nội dung.</p>
+        </div>
+    </div>
+    <div class="member-card">
+        <div class="member-image-container">
+            <img src="https://cdn.discordapp.com/attachments/1469620364563841188/1476543638954840157/5ce31b70-1d32-4fa9-9ece-37fe9f74a40f.jpg?ex=69a181ec&is=69a0306c&hm=7dbf4122109910a7157eef5021bee398bd8617e7c81f249d1bc5817a415e7fc7&" alt="Lương Anh Tài">
+        </div>
+        <div class="member-info">
+            <span class="member-role">Thành viên</span>
+            <h4>Lương Anh Tài</h4>
+            <p class="member-task">Lập trình code.</p>
+        </div>
+    </div>
+    <div class="member-card">
+        <div class="member-image-container">
+            <img src="https://cdn.discordapp.com/attachments/1469620364563841188/1476233945157861436/9531bc08-77a0-4f6d-8a13-564ea9e9e288_1.jpg?ex=69a0617f&is=699f0fff&hm=cfb42b3726d474485e6f142308471f7ffad0652cf69958dd8b1e5080bb62064e&" alt="Nguyễn Hoàng Bảo Ngọc">
+        </div>
+        <div class="member-info">
+            <span class="member-role">Thành viên</span>
+            <h4>Nguyễn Hoàng Bảo Ngọc</h4>
+            <p class="member-task">Phác thảo,tìm hình ảnh.</p>
+        </div>
+    </div>
+ <div class="member-card">
+        <div class="member-image-container">
+            <img src="https://cdn.discordapp.com/attachments/1469620364563841188/1476234612127825983/40f349f4-0c54-4ed8-954c-fae2ba1d9923.jpg?ex=69a0621e&is=699f109e&hm=c52034261cfa708ceb4c0bfa22030fb3cacb7dac2a8baf2d5490635021b8e63c&" alt="Võ Quang Nhật Tùng">
+        </div>
+        <div class="member-info">
+            <span class="member-role">Thành viên</span>
+            <h4>Võ Quang Nhật Tùng</h4>
+            <p class="member-task">Lập trình code.</p>
+        </div>
+    </div>
+</div>
+    
+    </section>
+
+ <section id="lichsu">
+    <h2>Dòng Máu Lạc Hồng: Thời Đại Hùng Vương</h2>
+    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
+        <div style="flex: 2; min-width: 300px;">
+            <p>Truyền thuyết kể lại rằng: Kinh Dương Vương sinh một con trai, sau nối ngôi vua cha niên hiệu là Lạc Long Quân. Lạc Long Quân lấy Âu Cơ sinh ra một bọc trăm trứng nở ra một trăm người con là tổ tiên của người Bách Việt. Một hôm vua Lạc Long Quân bảo bà Âu Cơ: "Ta là giống Rồng, nàng là giống Tiên, thủy hỏa khắc nhau, chung hợp thật khó". Vì vậy, năm mươi người con theo mẹ lên núi, năm mươi người con theo cha về miền biển. Lạc Long Quân phong cho con trưởng Hùng Vương nối ngôi, làm vua. Trải qua 18 đời, Hùng Vương thứ 18 đã nhường ngôi cho Thục Phán - An Dương Vương.</p>
+            
+        </div>
+        <div style="flex: 1; min-width: 250px;">
+             <img src="https://cdn.discordapp.com/attachments/1469673652512489493/1471885284445519883/files-library-newimages-30042023giotoHungVuong.png?ex=69908f7e&is=698f3dfe&hm=011c00f46a8bd945c58643e40240a78e8f60bef7dd91e558f27d52f1c561fffa&" width="100%" style="border-radius: 15px; border: 2px solid #d4af37;">
+             <p style="font-size: 0.8rem; text-align: center; font-style: italic;">Tượng vua Hùng trong đền tưởng niệm các vua Hùng ở công viên Tao Đàn (TP Hồ Chí Minh)</p>
+        </div>
+        <div style="flex: 1; min-width: 250px;">
+             <img src="https://cdn.discordapp.com/attachments/1469673652512489493/1471884636920479868/4c94c721-le-hoi-den-hung-2.png?ex=69908ee3&is=698f3d63&hm=b3abcab04772cb3eb0f29ee33f44af4e5da2d00278e31994d09f631cafa4574c&" width="100%" style="border-radius: 15px; border: 2px solid #d4af37;">
+             <p style="font-size: 0.8rem; text-align: center; font-style: italic;">Hình ảnh người dân tham dự Lễ hội Đền Hùng cách đây hơn 100 năm (Ảnh: sưu tầm)</p>
+        </div>
+        
+    </div>
+
+    <div style="background: #fff8e1; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <p>Để ghi nhớ công ơn của các Vua Hùng có công khai thiên, lập địa, vua Lê Thánh Tông năm 1470 và đời vua Lê Kính Tông năm 1601 sao chép đóng dấu kiềm để tại Đền Hùng, chọn ngày 11 và 12 tháng 3 âm lịch làm ngày giỗ Tổ Hùng Vương. Đến thời nhà Nguyễn - năm Khải Định thứ 2 chính thức chọn ngày 10 tháng 3 Âm lịch làm ngày giỗ Tổ Hùng Vương để tưởng nhớ các Vua Hùng và nhắc nhở mọi người Việt Nam cùng tưởng nhớ thờ cúng Tổ tiên.</p>
+    </div>
+
+    <h3>Phim Tư Liệu: Nguồn Cội Con Rồng Cháu Tiên</h3>
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+            src="https://www.youtube.com/embed/4CI52V3lQTA" 
+            title="Sự tích Con Rồng Cháu Tiên" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+    </div>
+</section >
+    <section id="lehoi">
+    <h2>Lễ Hội Đền Hùng - Di Sản Nhân Loại</h2>
+    <p>Hàng năm, hàng triệu người dân khắp nơi lại nô nức về núi Nghĩa Lĩnh để tri ân tổ tiên. Lễ hội bao gồm hai phần chính: <b>Phần Lễ</b> và <b>Phần Hội</b>.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 20px 0;">
+        <div style="background: white; border: 1px solid #ddd; border-radius: 10px; overflow: hidden;">
+            <img src="https://cdn.shopify.com/s/files/1/0731/6514/4343/files/cac-hoat-dong-ngay-gio-to-hung-vuong_1.jpg?v=1712120723" width="100%">
+            <div style="padding: 15px;">
+                <h4 style="color: #8b0000;">Phần Lễ</h4>
+                <p style="font-size: 0.9rem;">Gồm lễ rước kiệu và dâng hương tại các đền (Đền Hạ, Đền Trung, Đền Thượng). Nghi thức diễn ra trang nghiêm với trang phục truyền thống rực rỡ.</p>
+            </div>
+        </div>
+        <div style="background: white; border: 1px solid #ddd; border-radius: 10px; overflow: hidden;">
+            <img src="https://cdn.discordapp.com/attachments/1468557806301872298/1470064772878831626/cac-hoat-dong-ngay-gio-to-hung-vuong_2.png?ex=69908782&is=698f3602&hm=ad85629eb9a15586d8886ddab3e5bde8a5ccfd50987e6aab7ce83ee2a7c5a057&" width="100%">
+            <div style="padding: 15px;">
+                <h4 style="color: #8b0000;">Phần Hội</h4>
+                <p style="font-size: 0.9rem;">Các hoạt động văn hóa dân gian sôi động: Đánh trống đồng, thi gói bánh chưng, giã bánh giầy, hát Xoan và các trò chơi dân gian như đu tiên, cờ người.</p>
+            </div>
+        </div>
+    </div>
+<div style="flex: 1; min-width: 250px;">
+             <img src="https://laodongthudo.vn/stores/news_dataimages/thuthuy/042015/23/16/den-hung-8-zing-1-wtoj20150423163717.6860840.JPG" width="100%" style="border-radius: 15px; border: 2px solid #d4af37;">
+             <p style="font-size: 0.8rem; text-align: center; font-style: italic;">Toàn cảnh Đền Hùng từ trên cao</p>
+             <div style="background: #fff8e1; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <p>Lễ hội Đền Hùng là một lễ hội lớn mang tính quốc gia để tưởng nhớ các vua Hùng đã có công dựng nước. Phong tục giỗ tổ Hùng Vương đã trở thành truyền thống văn hoá lâu đời ở nước ta. Đó là ngày hội toàn quốc, toàn dân và trong tâm thức dân gian Việt Nam nó mang tính thiêng liêng cao cả nhất. Vì thế mà lễ hội được tổ chức long trọng hàng năm với nghi thức đại lễ quốc gia, với sự hành hương “trở về cội nguồn dân tộc” của hàng chực vạn người từ khắp các nơi trong nước và kiều bào sống ở nước ngoài.. Hội đền Hùng kéo dài từ mùng 8 đến ngày 11 tháng 3 âm lịch, trong đó mùng 10 là chính hội. Lễ hội diễn ra  tại đền Hùng, Phú Thọ.</p>
+    </div>
+        </div>
+    <h3>Không khí Lễ hội thực tế</h3>
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 15px; margin-top: 20px;">
+        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+            src="https://www.youtube.com/embed/MuxdEeAzW-U"
+" 
+            title="Lễ hội Đền Hùng" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+    </div>
+</section>
+  <section id="ynghia" style="font-family: Arial, sans-serif; max-width: 1000px; margin: auto; padding: 20px;">
+    <h2> Ý Nghĩa Ngày Giỗ Tổ</h2>
+    
+    <div style="display: flex; gap: 20px; align-items: stretch; margin-bottom: 25px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 300px; border: 2px solid #8b0000; padding: 20px; border-radius: 12px; display: flex; align-items: center; background-color: #fff;">
+            <p style="line-height: 1.6; margin: 0;">Ngày Giỗ Tổ Hùng Vương không chỉ là một ngày lễ đơn thuần, mà còn là biểu tượng của tinh thần <b>Đoàn kết</b> và <b>Cội nguồn</b>. Đây là dịp để mỗi người dân Việt Nam soi rọi lại bản thân, hướng về tổ tiên với lòng biết ơn vô hạn.</p>
+        </div>
+        <div style="flex: 1; min-width: 300px; background: #fff8e1; padding: 25px; border-radius: 12px; border: 2px dashed #d4af37; display: flex; flex-direction: column; justify-content: center;">
+            <p style="margin: 0; font-style: italic; color: #5d0000; font-size: 1.1em; line-height: 1.5;">
+                "Các Vua Hùng đã có công dựng nước, Bác cháu ta phải cùng nhau giữ lấy nước."
+                <br>
+                <span style="display: block; text-align: right; font-weight: bold; margin-top: 10px; color: #8b0000;">- Chủ tịch Hồ Chí Minh -</span>
+            </p>
+        </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        
+        <div style="display: flex; gap: 20px; align-items: center; padding: 20px; border: 1px solid #e0e0e0; border-left: 8px solid #8b0000; border-radius: 8px; flex-wrap: wrap; background: #fdfdfd; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h3 style="flex: 0 0 150px; color: #8b0000; margin: 0; font-size: 1.2em;">Tinh Thần</h3>
+            <p style="flex: 1; margin: 0; line-height: 1.5;">Giỗ Tổ Hùng Vương thắt chặt khối đại đoàn kết dân tộc, khơi dậy niềm tự hào sâu sắc, trở thành điểm tựa và động lực để thế hệ hôm nay có trách nhiệm hơn trong việc kế thừa di sản và kiến tạo tương lai.</p>
+        </div>
+
+        <div style="display: flex; gap: 20px; align-items: center; padding: 20px; border: 1px solid #e0e0e0; border-left: 8px solid #8b0000; border-radius: 8px; flex-wrap: wrap; background: #fdfdfd; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h3 style="flex: 0 0 150px; color: #8b0000; margin: 0; font-size: 1.2em;">Giáo Dục</h3>
+            <p style="flex: 1; margin: 0; line-height: 1.5;">Là "trường học tâm hồn" giúp thế hệ trẻ chuyển hóa niềm tự hào lịch sử thành hành động thiết thực, giúp học sinh sống trách nhiệm và nỗ lực vì tương lai tươi sáng của "con Lạc cháu Hồng".</p>
+        </div>
+
+        <div style="display: flex; gap: 20px; align-items: center; padding: 20px; border: 1px solid #e0e0e0; border-left: 8px solid #8b0000; border-radius: 8px; flex-wrap: wrap; background: #fdfdfd; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h3 style="flex: 0 0 150px; color: #8b0000; margin: 0; font-size: 1.2em;">Văn Hóa</h3>
+            <p style="flex: 1; margin: 0; line-height: 1.5;">Giỗ Tổ Hùng Vương là biểu tượng văn hóa đặc sắc, thể hiện đạo lý "uống nước nhớ nguồn" và tín ngưỡng thờ cúng tổ tiên cao đẹp của người Việt. Ngày lễ không chỉ giúp bảo tồn các di sản truyền thống và thắt chặt tình đoàn kết cộng đồng mà còn giáo dục thế hệ trẻ về lòng tự hào dân tộc. Đây chính là sợi dây kết nối cội nguồn, giúp giữ gìn và lan tỏa bản sắc văn hóa dân tộc bền vững trong đời sống hiện đại.</p>
+        </div>
+
+    </div>
+</section>
+    
+  <section id="gopy">
+    <h2>Góp Ý & Phản Hồi</h2>
+    <p>Ý kiến của bạn giúp chúng mình hoàn thiện dự án hơn!</p>
+    
+    <div style="background: #fff; padding: 20px; border-radius: 15px; border: 1px solid #eee;">
+        <div class="form-group">
+            <label for="hoten">Họ tên của bạn:</label>
+            <input type="text" id="hoten" placeholder="Ví dụ: Nguyễn Văn Hải...">
+        </div>
+        <div class="form-group">
+            <label for="nd">Nội dung góp ý:</label>
+            <textarea id="nd" rows="4" placeholder="Nhập ý kiến tại đây..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="anh">Đăng kèm hình ảnh (nếu có):</label>
+            <input type="file" id="anh" accept="image/*" onchange="previewFile()">
+            <img id="image-preview" src="" alt="Xem trước">
+        </div>
+
+        <button type="button" class="btn-submit" onclick="submitFeedback()">Gửi ý kiến ngay</button>
+    </div>
+
+    <div id="comment-section">
+        <h3>Ý kiến cộng đồng (<span id="count">0</span>)</h3>
+        <div id="comment-list" style="margin-top: 20px;">
+            <p id="no-comment" style="color: #999; text-align: center;">Chưa có góp ý nào. Hãy là người đầu tiên!</p>
+        </div>
+    </div>
+</section>
+<script>
+    // Hàm xem trước ảnh khi người dùng chọn file
+function previewFile() {
+    const preview = document.getElementById('image-preview');
+    const file = document.getElementById('anh').files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = function () {
+        preview.src = reader.result;
+        preview.style.display = "block";
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = "";
+        preview.style.display = "none";
+    }
+}
+
+// Hàm gửi góp ý nâng cấp
+let count = 0;
+function submitFeedback() {
+    const name = document.getElementById('hoten').value;
+    const message = document.getElementById('nd').value;
+    const imageFile = document.getElementById('anh').files[0];
+    const preview = document.getElementById('image-preview');
+
+    if (name.trim() === "" || message.trim() === "") {
+        alert("Vui lòng nhập đầy đủ họ tên và nội dung!");
+        return;
+    }
+
+    const commentList = document.getElementById('comment-list');
+    const noComment = document.getElementById('no-comment');
+    if(noComment) noComment.style.display = 'none';
+
+    const newComment = document.createElement('div');
+    newComment.className = 'comment-card';
+    
+    const now = new Date();
+    const timeString = now.getHours() + ":" + (now.getMinutes()<10?'0':'') + now.getMinutes() + " - " + now.getDate() + "/" + (now.getMonth() + 1);
+
+    // Xử lý hiển thị ảnh trong bình luận
+    let imageHtml = "";
+    if (imageFile) {
+        imageHtml = <img src="${preview.src}" alt="Ảnh góp ý">;
+    }
+
+    newComment.innerHTML = `
+        <h4>${name}</h4>
+        <p>${message}</p>
+        ${imageHtml}
+        <small>Gửi vào lúc: ${timeString}</small>
+    `;
+
+    commentList.insertBefore(newComment, commentList.firstChild);
+
+    // Cập nhật số lượng
+    count++;
+    document.getElementById('count').innerText = count;
+
+    // Reset Form
+    document.getElementById('hoten').value = "";
+    document.getElementById('nd').value = "";
+    document.getElementById('anh').value = "";
+    preview.style.display = "none";
+
+    alert("Cảm ơn góp ý và hình ảnh của bạn!");
+}
+</script>
+
+<footer>
+
+    <p>Liên hệ: 0364731849</p>
+ <p>Gmail:nhom5tinhoc12a1@gmail.com </p>
+<p>Địa chỉ:  Lớp 12a1 Trường THPT Trường Chinh-Nhân Cơ</p>
+<p>Niên khóa :2025-2026</p>
+
+</footer>
+
+
+<script>
+
+    function openTab(evt, tabName) {
+
+        var i, tabcontent, tablinks;
+
+        
+
+        // Ẩn tất cả nội dung tab
+
+        tabcontent = document.getElementsByClassName("tab-content");
+
+        for (i = 0; i < tabcontent.length; i++) {
+
+            tabcontent[i].style.display = "none";
+
+        }
+
+
+        // Xóa lớp 'active-btn' khỏi tất cả các nút
+
+        tablinks = document.getElementsByClassName("tab-links");
+
+        for (i = 0; i < tablinks.length; i++) {
+\        
+            tablinks[i].className = tablinks[i].className.replace(" active-btn", "");
+             } // Hiện tab hiện tại và thêm lớp 'active-btn' vào nút đã bấm
+ document.getElementById(tabName).style.display = "block";
+ evt.currentTarget.className += " active-btn"; }
+ // --- XỬ LÝ NÚT BACK TO TOP ---
+// Khi người dùng cuộn xuống 300px thì hiện nút
+window.onscroll = function() {
+    scrollFunction();
+    reveal(); // Gọi hàm hiệu ứng xuất hiện luôn khi cuộn
+};
+
+function scrollFunction() {
+    var mybutton = document.getElementById("myBtn");
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        mybutton.style.display = "block";
+    } else {
+        mybutton.style.display = "none";
+    }
+}
+
+// Khi bấm nút thì cuộn lên đầu
+function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+
+// --- XỬ LÝ HIỆU ỨNG XUẤT HIỆN (REVEAL) ---
+function reveal() {
+    var reveals = document.querySelectorAll(".reveal-item");
+
+    for (var i = 0; i < reveals.length; i++) {
+        var windowHeight = window.innerHeight;
+        var elementTop = reveals[i].getBoundingClientRect().top;
+        var elementVisible = 150; // Khoảng cách từ dưới lên để bắt đầu hiện
+
+        if (elementTop < windowHeight - elementVisible) {
+            reveals[i].classList.add("active");
+        } else {
+            // Bỏ dòng dưới nếu muốn nó hiện rồi thì giữ nguyên, không ẩn lại khi cuộn lên
+            // reveals[i].classList.remove("active"); 
+        }
+    }
+}
+// Gọi hàm 1 lần khi tải trang để hiện các phần tử đầu tiên
+reveal();
+</script>
+</body>
+</html>

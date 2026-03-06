@@ -1090,6 +1090,36 @@ header h1 {
         </div>
     </div>
 </section>
+<section id="gopy">
+    <h2>Góp Ý & Phản Hồi</h2>
+    <p>Ý kiến của bạn giúp chúng mình hoàn thiện dự án hơn!</p>
+    
+    <div style="background: #fff; padding: 20px; border-radius: 15px; border: 1px solid #eee;">
+        <div class="form-group">
+            <label for="hoten">Họ tên của bạn:</label>
+            <input type="text" id="hoten" placeholder="Ví dụ: Nguyễn Văn Hải...">
+        </div>
+        <div class="form-group">
+            <label for="nd">Nội dung góp ý:</label>
+            <textarea id="nd" rows="4" placeholder="Nhập ý kiến tại đây..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="anh">Đăng kèm hình ảnh (nếu có):</label>
+            <input type="file" id="anh" accept="image/*" onchange="previewFile()">
+            <img id="image-preview" src="" alt="Xem trước">
+        </div>
+
+        <button type="button" class="btn-submit" onclick="submitFeedback()">Gửi ý kiến ngay</button>
+    </div>
+
+    <div id="comment-section">
+        <h3>Ý kiến cộng đồng (<span id="count">0</span>)</h3>
+        <div id="comment-list" style="margin-top: 20px;">
+            <p id="no-comment" style="color: #999; text-align: center;">Chưa có góp ý nào. Hãy là người đầu tiên!</p>
+        </div>
+    </div>
+</section>
 <script>
     // Hàm xem trước ảnh khi người dùng chọn file
 function previewFile() {
@@ -1161,6 +1191,7 @@ function submitFeedback() {
     alert("Cảm ơn góp ý và hình ảnh của bạn!");
 }
 </script>
+
 
 <footer>
 

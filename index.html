@@ -1164,7 +1164,7 @@ function submitFeedback() {
     let imageHtml = "";
 if (imageFile) {
     // Sửa lỗi ở đây: thêm dấu ` bao quanh chuỗi HTML
-    imageHtml = <img src="${preview.src}" alt="Ảnh góp ý">; 
+    imageHtml = '<img src="${preview.src}" alt="Ảnh góp ý">'; 
 }
 newComment.innerHTML = `
     <h4>${name}</h4>

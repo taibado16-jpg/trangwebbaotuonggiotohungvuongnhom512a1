@@ -901,6 +901,34 @@
         /* --- GÓP Ý KIẾN --- */
         .feedback-section { max-width: 700px; margin: 60px auto 0; background: linear-gradient(to bottom right, #fffcf0, #fff); padding: 35px; border-radius: 15px; border: 2px dashed #8b0000; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .feedback-input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #d4c4a8; font-family: inherit; margin-top: 5px; transition: 0.3s; }
+        /* Định nghĩa hiệu ứng */
+@keyframes fadeInPage {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Đẩy nhẹ từ dưới lên */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Áp dụng vào thẻ body hoặc container chính */
+body {
+    animation: fadeInPage 1.5s ease-out;
+}
+        * Trạng thái mặc định: Ẩn và hơi đẩy xuống dưới */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out; /* Tốc độ hiện ra (0.8 giây) */
+}
+
+/* Trạng thái khi cuộn chuột tới: Hiện lên và về vị trí cũ */
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
     </style>
 </head>
 <body>
@@ -925,7 +953,7 @@
 </nav>
 
 <div class="container">
-    <section id="trangchu">
+    <section id="trangchu" class="reveal">
         <h2>Lời Ngỏ</h2>
         <div class="loi-ngo">
             <p>"Dù ai đi ngược về xuôi - Nhớ ngày Giỗ Tổ mồng mười tháng ba". Câu ca dao ấy đã in sâu vào tâm thức của mỗi người dân Việt Nam. Trang báo tường này như một nén hương thơm thành kính gửi tới các vị Vua Hùng đã có công dựng nước, đồng thời là nơi để chúng ta cùng ôn lại những giá trị truyền thống quý báu của dân tộc.</p>
@@ -944,7 +972,7 @@
             THÔNG ĐIỆP: "UỐNG NƯỚC NHỚ NGUỒN - GẮN KẾT SỨC MẠNH DÂN TỘC"
         </div>
         
-        <div class="countdown-box">
+        <div class="countdown-box" class="reveal">
             <h2>ĐẾM NGƯỢC NGÀY GIỖ TỔ HÙNG VƯƠNG :</h2>
             <div class="countdown-timer-ultra" id="timer">
                 <div class="time-unit">
@@ -992,7 +1020,7 @@
         </script>
     </section>
     
-    <section id="lichsu" class="container">
+    <section id="lichsu" class="container" class="reveal">
         <div class="premium-history-section">
             
             <div class="premium-heading">
@@ -1062,7 +1090,7 @@
         </div>
     </section>
     
-    <section id="lehoi">
+    <section id="lehoi" class="reveal">
         <h2>Lễ Hội Đền Hùng - Di Sản Nhân Loại</h2>
         <p>Hàng năm, hàng triệu người dân khắp nơi lại nô nức về núi Nghĩa Lĩnh để tri ân tổ tiên. Lễ hội bao gồm hai phần chính: <b>Phần Lễ</b> và <b>Phần Hội</b>.</p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 20px 0;">
@@ -1148,7 +1176,7 @@
         </div>
     </section>
 
-    <section id="ynghia" style="font-family: Arial, sans-serif; max-width: 1000px; margin: auto; padding: 20px;">
+    <section id="ynghia" style="font-family: Arial, sans-serif; max-width: 1000px; margin: auto; padding: 20px;" class="reveal">
         <h2> Ý Nghĩa Ngày Giỗ Tổ</h2>   
         <div style="display: flex; gap: 20px; align-items: stretch; margin-bottom: 25px; flex-wrap: wrap;">
             <div style="flex: 1; min-width: 300px; border: 2px solid #8b0000; padding: 20px; border-radius: 12px; display: flex; align-items: center; background-color: #fff;">
@@ -1278,7 +1306,7 @@
         </div>   
     </section>
 
-    <section id="gopy" class="container" style="background: transparent; box-shadow: none; padding: 0;">
+    <section id="gopy" class="container" style="background: transparent; box-shadow: none; padding: 0;" class="reveal">
         
         <div class="social-feed-container">
             <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 5px;">Bảng Tin Yêu Thương</h2>
@@ -1397,6 +1425,7 @@
             list.appendChild(newPost);
         });
     }
+    
 
     // Tự động vẽ bài viết khi mở trang
     document.addEventListener('DOMContentLoaded', renderPosts);
@@ -1528,6 +1557,28 @@
             btn.style.background = "#8b0000";
         });
     }
+    function reveal() {
+  var reveals = document.querySelectorAll(".reveal");
+
+  for (var i = 0; i < reveals.length; i++) {
+    var windowHeight = window.innerHeight;
+    var elementTop = reveals[i].getBoundingClientRect().top;
+    var elementVisible = 150; // Khoảng cách từ dưới lên để bắt đầu hiện nội dung
+
+    if (elementTop < windowHeight - elementVisible) {
+      reveals[i].classList.add("active");
+    } else {
+      // Nếu muốn hiệu ứng lặp lại mỗi khi cuộn lên/xuống thì bỏ comment dòng dưới:
+      // reveals[i].classList.remove("active");
+    }
+  }
+}
+
+// Chạy hàm mỗi khi người dùng cuộn chuột
+window.addEventListener("scroll", reveal);
+
+// Chạy hàm ngay khi vừa load trang (để hiện các phần ở trên cùng)
+reveal();
 </script>
 
 <footer class="modern-footer">

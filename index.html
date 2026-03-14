@@ -1457,6 +1457,7 @@
     // --- HÀM VẼ GIAO DIỆN BÀI VIẾT ---
     function renderPosts() {
         const list = document.getElementById('guestbook-list');
+        if (!list) return; // Bảo vệ nếu không tìm thấy phần tử
         list.innerHTML = ''; 
         
         if (posts.length === 0) {
@@ -1464,16 +1465,19 @@
             return;
         }
 
-        posts.forEach((post, index)) => {
+        posts.forEach((post, index) => { // Đã sửa lỗi cú pháp ở đây
             // Render số liệu like/comment
             let likeIcon = post.liked ? '❤️' : '🤍';
             let likeClass = post.liked ? 'liked' : '';
             
             // Render danh sách bình luận
             let commentsHtml = '';
-            post.comments.forEach(cmt => {
-                commentsHtml += <div class="comment-item"><span class="comment-author">${cmt.name}:</span> ${cmt.text}</div>;
-            });
+            if (post.comments) {
+                post.comments.forEach(cmt => {
+                    // Đã sửa dấu backticks ở đây
+                    commentsHtml += `<div class="comment-item"><span class="comment-author">${cmt.name}:</span> ${cmt.text}</div>`;
+                });
+            }
 
             const newPost = document.createElement('div');
             newPost.className = 'post-card';
@@ -1486,11 +1490,11 @@
                     </div>
                 </div>
                 <div class="post-content">${post.message}</div>
-                ${post.imageHtml}
+                ${post.imageHtml || ''}
                 
                 <div class="post-stats">
-                    <span>${likeIcon} ${post.likes} lượt thích</span>
-                    <span>${post.comments.length} bình luận</span>
+                    <span>${likeIcon} ${post.likes || 0} lượt thích</span>
+                    <span>${post.comments ? post.comments.length : 0} bình luận</span>
                 </div>
                 
                 <div class="post-interaction">
@@ -1499,7 +1503,7 @@
                     <span onclick="deletePost(${index})" style="color: #888;">🗑️ Xóa bài</span>
                 </div>
 
-                <div class="comment-section" id="comment-box-${index}">
+                <div class="comment-section" id="comment-box-${index}" style="display: none;">
                     <div class="comment-list">${commentsHtml}</div>
                     <div class="comment-input-area">
                         <input type="text" id="cmt-name-${index}" class="comment-input" style="width: 30%; flex: none;" placeholder="Tên bạn...">
@@ -1515,54 +1519,57 @@
     // Tự động vẽ bài viết khi mở trang
     document.addEventListener('DOMContentLoaded', renderPosts);
 
-    // --- CÁC HÀM XỬ LÝ BÀI VIẾT (SỔ LƯU BÚT) ---
+    // --- CÁC HÀM XỬ LÝ BÀI VIẾT ---
     function previewGuestbookFile() {
         const preview = document.getElementById('lb-preview');
-        const file = document.getElementById('lb-anh').files[0];
+        const fileInput = document.getElementById('lb-anh');
+        if (!fileInput.files[0]) return;
+        
         const reader = new FileReader();
-        reader.onloadend = () => { preview.src = reader.result; preview.style.display = "block"; }
-        if (file) reader.readAsDataURL(file);
-        else { preview.src = ""; preview.style.display = "none"; }
+        reader.onloadend = () => { 
+            preview.src = reader.result; 
+            preview.style.display = "block"; 
+        }
+        reader.readAsDataURL(fileInput.files[0]);
     }
 
     function submitGuestbook() {
-    const nameInput = document.getElementById('lb-hoten');
-    const messageInput = document.getElementById('lb-nd');
-    const preview = document.getElementById('lb-preview');
-    const fileInput = document.getElementById('lb-anh');
+        const nameInput = document.getElementById('lb-hoten');
+        const messageInput = document.getElementById('lb-nd');
+        const preview = document.getElementById('lb-preview');
+        const fileInput = document.getElementById('lb-anh');
 
-    const name = nameInput.value.trim();
-    const message = messageInput.value.trim();
+        const name = nameInput.value.trim();
+        const message = messageInput.value.trim();
 
-    if (name === "" || message === "") {
-        alert("Vui lòng nhập tên và nội dung bài viết!");
-        return;
+        if (name === "" || message === "") {
+            alert("Vui lòng nhập tên và nội dung bài viết!");
+            return;
+        }
+
+        const now = new Date();
+        const newPostData = {
+            name: name,
+            initial: name.charAt(0).toUpperCase(),
+            timeString: `${now.getHours()}:${now.getMinutes() < 10 ? '0' : ''}${now.getMinutes()} - ${now.getDate()}/${now.getMonth() + 1}`,
+            message: message.replace(/\n/g, '<br>'),
+            imageHtml: (preview.style.display === "block" && preview.src) ? `<img src="${preview.src}" class="post-image" alt="Ảnh">` : "",
+            likes: 0,
+            liked: false,
+            comments: []
+        };
+
+        posts.unshift(newPostData);
+        saveAndRender();
+
+        // Xóa sạch form
+        nameInput.value = "";
+        messageInput.value = "";
+        fileInput.value = "";
+        preview.src = "";
+        preview.style.display = "none";
     }
 
-    const now = new Date();
-    const newPostData = {
-        name: name,
-        initial: name.charAt(0).toUpperCase(),
-        timeString: now.getHours() + ":" + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes() + " - " + now.getDate() + "/" + (now.getMonth() + 1),
-        message: message.replace(/\n/g, '<br>'),
-        // Chỉ lưu ảnh nếu preview đang hiển thị và có dữ liệu
-        imageHtml: (preview.style.display === "block" && preview.src) ? `<img src="${preview.src}" class="post-image" alt="Ảnh">` : "",
-        likes: 0,
-        liked: false,
-        comments: []
-    };
-
-    posts.unshift(newPostData); // Thêm vào đầu danh sách
-    saveAndRender();
-
-    // Xóa sạch form sau khi đăng
-    nameInput.value = "";
-    messageInput.value = "";
-    fileInput.value = "";
-    preview.src = "";
-    preview.style.display = "none";
-}
-    // --- TƯƠNG TÁC THÍCH & BÌNH LUẬN ---
     function toggleLike(index) {
         posts[index].liked = !posts[index].liked;
         posts[index].likes += posts[index].liked ? 1 : -1;
@@ -1579,7 +1586,8 @@
         const textInput = document.getElementById(`cmt-text-${index}`);
         
         if(nameInput.value.trim() === "" || textInput.value.trim() === "") {
-            alert("Vui lòng nhập cả Tên và Nội dung bình luận!"); return;
+            alert("Vui lòng nhập cả Tên và Nội dung bình luận!"); 
+            return;
         }
 
         posts[index].comments.push({
@@ -1589,7 +1597,8 @@
         
         saveAndRender();
         // Mở lại box bình luận ngay sau khi vẽ lại giao diện
-        document.getElementById(`comment-box-${index}`).style.display = "block";
+        const box = document.getElementById(`comment-box-${index}`);
+        if(box) box.style.display = "block";
     }
 
     function deletePost(index) {
@@ -1604,8 +1613,10 @@
             localStorage.setItem('guestbook_posts', JSON.stringify(posts));
             renderPosts();
         } catch (e) {
-            alert("Bộ nhớ đầy! Không thể lưu thêm ảnh, vui lòng xóa bớt bài viết cũ.");
+            alert("Bộ nhớ trình duyệt đầy! Không thể lưu thêm ảnh, vui lòng xóa bớt bài viết cũ.");
             posts.shift();
+            localStorage.setItem('guestbook_posts', JSON.stringify(posts));
+            renderPosts();
         }
     }
 

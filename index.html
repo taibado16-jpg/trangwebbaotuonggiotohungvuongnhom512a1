@@ -620,7 +620,7 @@
             font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), 
-                              url('https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=2000');
+                              url('background.avif');
             background-attachment: fixed;
             background-size: cover;
             background-position: center;
@@ -645,7 +645,7 @@
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8)), 
-                              url('background.avif');
+                              url('bg.jpg');
             background-size: cover;
             background-position: center;
             z-index: 1;
@@ -987,23 +987,10 @@
 </head>
 <body>
 
-<audio id="bg-music" loop>
-    <source src="https://assets.mixkit.co/music/preview/mixkit-traditional-asian-music-116.mp3" type="audio/mpeg">
-</audio>
-
 <div id="settings-overlay" class="settings-overlay" onclick="toggleSettings(event)"></div>
 <div id="settings-panel" class="settings-panel">
     <button class="close-settings-btn" onclick="toggleSettings(event)"><i class="fa-solid fa-xmark"></i></button>
     <h3>⚙️ TÙY CHỈNH</h3>
-    
-    <div class="setting-item">
-        <span><i class="fa-solid fa-music"></i> Nhạc Truyền Thống</span>
-        <label class="switch">
-            <input type="checkbox" id="musicToggle" onchange="toggleMusic()">
-            <span class="slider round"></span>
-        </label>
-    </div>
-    
     <div class="setting-item">
         <span><i class="fa-solid fa-fan"></i> Mưa Hoa Mai</span>
         <label class="switch">
@@ -1104,98 +1091,7 @@
                     document.getElementById("timer").innerHTML = "<h3>HÔM NAY LÀ NGÀY GIỖ TỔ!</h3>";
                 }
             }, 1000);
-        </script>
-
-        <h2>Thành Viên Nhóm Dự Án</h2>
-        <div class="team-grid">
-            <div class="member-card">
-                <div class="member-image-container">
-                    <img src="e7ff4168-0488-408d-8cda-a3b444046d8c.jpg" alt="Nguyễn Minh Thuận">
-                </div>
-                <div class="member-info">
-                    <span class="member-role">Trưởng nhóm</span>
-                    <h4>Nguyễn Minh Thuận</h4>
-                    <p class="member-task">Quản lý dự án,phân chia nhiệm vụ.</p>
-                </div>
-            </div>
-
-            <div class="member-card">
-                <div class="member-image-container">
-                    <img src="0524b056-18e3-4430-a87a-a02e37064f2f.jpg" alt="Bùi Thị Kiều Oanh">
-                </div>
-                <div class="member-info">
-                    <span class="member-role">Thư kí</span>
-                    <h4>Bùi Thị Kiều Oanh</h4>
-                    <p class="member-task">Ghi chép,phác thảo.</p>
-                </div>
-            </div>
-            
-            <div class="member-card">
-                <div class="member-image-container">
-                    <img src="178e38a9-defb-473c-84e7-ab8407b42201.jpg" alt="Mai Ngọc Hưng">
-                </div>
-                <div class="member-info">
-                    <span class="member-role">Thành viên</span>
-                    <h4>Mai Ngọc Hưng</h4>
-                    <p class="member-task">Lập trình code.</p>
-                </div>
-            </div>
-
-            <div class="member-card">
-                <div class="member-image-container">
-                    <img src="47ad51ab-4430-410b-a55f-b57055536e9a.jpg" alt="Trịnh Thanh Sang">
-                </div>
-                <div class="member-info">
-                    <span class="member-role">Thành viên</span>
-                    <h4>Trịnh Thanh Sang</h4>
-                    <p class="member-task">Lập trình code.</p>
-                </div>
-            </div>
-
-            <div class="member-card">
-                <div class="member-image-container">
-                    <img src="79cc0be9-3e16-4afd-a871-34f06cecd14c.jpg" alt="Nguyễn Thị Yến Như">
-                </div>
-                <div class="member-info">
-                    <span class="member-role">Thành viên </span>
-                    <h4>Nguyễn Thị Yến Như</h4>
-                    <p class="member-task">Phác thảo,tìm nội dung.</p>
-                </div>
-            </div>
-
-            <div class="member-card">
-                <div class="member-image-container">
-                    <img src="8248bf9c-9597-4ed6-bf42-3ad033729f83.jpg" alt="Lương Anh Tài">
-                </div>
-                <div class="member-info">
-                    <span class="member-role">Thành viên</span>
-                    <h4>Lương Anh Tài</h4>
-                    <p class="member-task">Lập trình code.</p>
-                </div>
-            </div>
-
-            <div class="member-card">
-                <div class="member-image-container">
-                    <img src="9531bc08-77a0-4f6d-8a13-564ea9e9e288_1.jpg" alt="Nguyễn Hoàng Bảo Ngọc">
-                </div>
-                <div class="member-info">
-                    <span class="member-role">Thành viên</span>
-                    <h4>Nguyễn Hoàng Bảo Ngọc</h4>
-                    <p class="member-task">Phác thảo,tìm hình ảnh.</p>
-                </div>
-            </div>
-
-            <div class="member-card">
-                <div class="member-image-container">
-                    <img src="b283a445-bc9f-49dc-8f3e-19b6314c5993.jpg" alt="Võ Quang Nhật Tùng">
-                </div>
-                <div class="member-info">
-                    <span class="member-role">Thành viên</span>
-                    <h4>Võ Quang Nhật Tùng</h4>
-                    <p class="member-task">Lập trình code.</p>
-                </div>
-            </div>
-        </div>   
+        </script>  
     </section>
     
     <section id="lichsu" class="container">
@@ -1406,10 +1302,100 @@
                 <p style="flex: 1; margin: 0; line-height: 1.5;">Lễ hội trở thành một điểm nhấn du lịch quan trọng của Phú Thọ và vùng Đông Bắc, thu hút lượng lớn du khách, góp phần phát triển kinh tế – xã hội địa phương.</p>
             </div>
         </div>
+        
+         <h2>Thành Viên Nhóm Dự Án</h2>
+        <div class="team-grid">
+            <div class="member-card">
+                <div class="member-image-container">
+                    <img src="e7ff4168-0488-408d-8cda-a3b444046d8c.jpg" alt="Nguyễn Minh Thuận">
+                </div>
+                <div class="member-info">
+                    <span class="member-role">Trưởng nhóm</span>
+                    <h4>Nguyễn Minh Thuận</h4>
+                    <p class="member-task">Quản lý dự án,phân chia nhiệm vụ.</p>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-image-container">
+                    <img src="0524b056-18e3-4430-a87a-a02e37064f2f.jpg" alt="Bùi Thị Kiều Oanh">
+                </div>
+                <div class="member-info">
+                    <span class="member-role">Thư kí</span>
+                    <h4>Bùi Thị Kiều Oanh</h4>
+                    <p class="member-task">Ghi chép,phác thảo.</p>
+                </div>
+            </div>
+            
+            <div class="member-card">
+                <div class="member-image-container">
+                    <img src="178e38a9-defb-473c-84e7-ab8407b42201.jpg" alt="Mai Ngọc Hưng">
+                </div>
+                <div class="member-info">
+                    <span class="member-role">Thành viên</span>
+                    <h4>Mai Ngọc Hưng</h4>
+                    <p class="member-task">Lập trình code.</p>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-image-container">
+                    <img src="47ad51ab-4430-410b-a55f-b57055536e9a.jpg" alt="Trịnh Thanh Sang">
+                </div>
+                <div class="member-info">
+                    <span class="member-role">Thành viên</span>
+                    <h4>Trịnh Thanh Sang</h4>
+                    <p class="member-task">Lập trình code.</p>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-image-container">
+                    <img src="79cc0be9-3e16-4afd-a871-34f06cecd14c.jpg" alt="Nguyễn Thị Yến Như">
+                </div>
+                <div class="member-info">
+                    <span class="member-role">Thành viên </span>
+                    <h4>Nguyễn Thị Yến Như</h4>
+                    <p class="member-task">Phác thảo,tìm nội dung.</p>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-image-container">
+                    <img src="8248bf9c-9597-4ed6-bf42-3ad033729f83.jpg" alt="Lương Anh Tài">
+                </div>
+                <div class="member-info">
+                    <span class="member-role">Thành viên</span>
+                    <h4>Lương Anh Tài</h4>
+                    <p class="member-task">Lập trình code.</p>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-image-container">
+                    <img src="9531bc08-77a0-4f6d-8a13-564ea9e9e288_1.jpg" alt="Nguyễn Hoàng Bảo Ngọc">
+                </div>
+                <div class="member-info">
+                    <span class="member-role">Thành viên</span>
+                    <h4>Nguyễn Hoàng Bảo Ngọc</h4>
+                    <p class="member-task">Phác thảo,tìm hình ảnh.</p>
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="member-image-container">
+                    <img src="b283a445-bc9f-49dc-8f3e-19b6314c5993.jpg" alt="Võ Quang Nhật Tùng">
+                </div>
+                <div class="member-info">
+                    <span class="member-role">Thành viên</span>
+                    <h4>Võ Quang Nhật Tùng</h4>
+                    <p class="member-task">Lập trình code.</p>
+                </div>
+            </div>
+        </div>   
     </section>
 
     <section id="gopy" class="container" style="background: transparent; box-shadow: none; padding: 0;">
-        
         <div class="social-feed-container">
             <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 5px;">Bảng Tin Yêu Thương</h2>
             <p style="text-align: center; color: #666; font-style: italic; margin-bottom: 30px;">Lưu giữ kỷ niệm, F5 không lo mất bài!</p>
@@ -1480,7 +1466,7 @@
             return;
         }
 
-        posts.forEach((post, index) => {
+        posts.forEach((post, index)) => {
             // Render số liệu like/comment
             let likeIcon = post.liked ? '❤️' : '🤍';
             let likeClass = post.liked ? 'liked' : '';
@@ -1777,44 +1763,7 @@ nav a:hover i {
     nav a i { display: none !important; }
 }
 
-/* --- HIỆU ỨNG RỒNG SVG BAY LƯỢN (KHÔNG BỊ LỖI ẢNH) --- */
-.flying-dragon {
-    position: absolute; width: 250px; height: auto; opacity: 0.15; z-index: 0;
-    pointer-events: none; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.5));
-}
-.dragon-1 { top: 20px; left: -30px; animation: floatDragon1 8s ease-in-out infinite; }
-.dragon-2 { bottom: 40px; right: -30px; animation: floatDragon2 7s ease-in-out infinite; }
-@keyframes floatDragon1 {
-    0%, 100% { transform: scaleX(-1) translateY(0) rotate(0deg); }
-    50% { transform: scaleX(-1) translateY(-30px) rotate(5deg); }
-}
-@keyframes floatDragon2 {
-    0%, 100% { transform: scaleX(1) translateY(0) rotate(0deg); }
-    50% { transform: scaleX(1) translateY(-30px) rotate(-5deg); }
-}
-@media (max-width: 768px) {
-    .flying-dragon { width: 120px; opacity: 0.1; }
-    .dragon-1 { left: -10px; top: 0; }
-    .dragon-2 { right: -10px; bottom: 0; }
-}
-
 /* ================= CSS THÊM CHO PHẦN CÀI ĐẶT (SETTINGS) ================= */
-/* Nền tối cho body khi kích hoạt Dark Mode */
-body.dark-mode {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&q=80&w=2000');
-}
-body.dark-mode .container { background: rgba(30, 30, 30, 0.95); box-shadow: 0 15px 35px rgba(255,255,255,0.05); }
-body.dark-mode section { background: transparent; }
-body.dark-mode .story-frame, body.dark-mode .post-create-card, body.dark-mode .post-card, body.dark-mode .feedback-section { background: #222; border-color: #444; }
-body.dark-mode .story-content { background: #222; }
-body.dark-mode .timeline-inner { background: #222; border-color: #444; }
-body.dark-mode .timeline-inner p { color: #ccc !important; }
-body.dark-mode .loi-ngo, body.dark-mode .gioi-thieu { background: #2a2a2a; border-color: #d4af37; }
-body.dark-mode .member-card { background: #222; border-color: #444; }
-body.dark-mode p, body.dark-mode div, body.dark-mode li { color: #e0e0e0 !important; }
-body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 { color: #d4af37 !important; }
-body.dark-mode input, body.dark-mode textarea { background: #333; color: #fff; border-color: #555; }
-
 /* Bảng điều khiển Cài Đặt (Drawer) */
 .settings-panel {
     position: fixed; top: 0; right: -350px; width: 320px; height: 100vh;
@@ -1865,17 +1814,6 @@ input:checked + .slider:before { transform: translateX(24px); }
         document.getElementById('settings-overlay').classList.toggle('open');
     }
 
-    // Tính năng: Chế độ Tối (Dark Mode)
-    function toggleDarkMode() {
-        const isDark = document.getElementById('darkModeToggle').checked;
-        if(isDark) {
-            document.body.classList.add('dark-mode');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.body.classList.remove('dark-mode');
-            localStorage.setItem('theme', 'light');
-        }
-    }
 
     // Tính năng: Bật nhạc nền
     function toggleMusic() {
@@ -1886,16 +1824,6 @@ input:checked + .slider:before { transform: translateX(24px); }
             audio.pause();
         }
     }
-
-    // Tính năng: Ẩn/hiện rồng bay
-    function toggleDragons() {
-        const dragons = document.querySelectorAll('.flying-dragon');
-        const isHidden = document.getElementById('dragonToggle').checked;
-        dragons.forEach(d => {
-            d.style.display = isHidden ? 'none' : 'block';
-        });
-    }
-
     // Tính năng: Mưa hoa mai
     let flowerInterval;
     function toggleFlowers() {
@@ -1907,7 +1835,6 @@ input:checked + .slider:before { transform: translateX(24px); }
             document.querySelectorAll('.petal').forEach(p => p.remove());
         }
     }
-
     function createPetal() {
         const petal = document.createElement('div');
         petal.innerHTML = '❀';

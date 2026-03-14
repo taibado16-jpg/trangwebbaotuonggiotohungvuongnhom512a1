@@ -1563,13 +1563,13 @@
     }
 
     function toggleCommentSection(index) {
-        const box = document.getElementById(comment-box-${index});
+        const box = document.getElementById(`comment-box-${index}`);
         box.style.display = box.style.display === "block" ? "none" : "block";
     }
 
     function addComment(index) {
-        const nameInput = document.getElementById(cmt-name-${index});
-        const textInput = document.getElementById(cmt-text-${index});
+        const nameInput = document.getElementById(`cmt-name-${index}`);
+        const textInput = document.getElementById(`cmt-text-${index}`);
         
         if(nameInput.value.trim() === "" || textInput.value.trim() === "") {
             alert("Vui lòng nhập cả Tên và Nội dung bình luận!"); return;
@@ -1582,7 +1582,7 @@
         
         saveAndRender();
         // Mở lại box bình luận ngay sau khi vẽ lại giao diện
-        document.getElementById(comment-box-${index}).style.display = "block";
+        document.getElementById(`comment-box-${index}`).style.display = "block";
     }
 
     function deletePost(index) {

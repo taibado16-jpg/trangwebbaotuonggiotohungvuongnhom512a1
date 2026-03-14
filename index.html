@@ -1526,35 +1526,42 @@
     }
 
     function submitGuestbook() {
-        const name = document.getElementById('lb-hoten').value;
-        const message = document.getElementById('lb-nd').value;
-        const preview = document.getElementById('lb-preview');
+    const nameInput = document.getElementById('lb-hoten');
+    const messageInput = document.getElementById('lb-nd');
+    const preview = document.getElementById('lb-preview');
+    const fileInput = document.getElementById('lb-anh');
 
-        if (name.trim() === "" || message.trim() === "") {
-            alert("Vui lòng nhập tên và nội dung bài viết!"); return;
-        }
+    const name = nameInput.value.trim();
+    const message = messageInput.value.trim();
 
-        const now = new Date();
-        const newPostData = {
-            name: name,
-            initial: name.trim().charAt(0).toUpperCase(),
-            timeString: now.getHours() + ":" + (now.getMinutes()<10?'0':'') + now.getMinutes() + " - " + now.getDate() + "/" + (now.getMonth() + 1),
-            message: message.replace(/\n/g, '<br>'),
-            imageHtml: preview.src ? <img src="${preview.src}" class="post-image" alt="Ảnh"> : "",
-            likes: 0,
-            liked: false,
-            comments: [] // Mảng chứa bình luận
-        };
-
-        posts.unshift(newPostData); // Thêm lên đầu
-        saveAndRender();
-
-        document.getElementById('lb-hoten').value = "";
-        document.getElementById('lb-nd').value = "";
-        document.getElementById('lb-anh').value = "";
-        preview.style.display = "none";
+    if (name === "" || message === "") {
+        alert("Vui lòng nhập tên và nội dung bài viết!");
+        return;
     }
 
+    const now = new Date();
+    const newPostData = {
+        name: name,
+        initial: name.charAt(0).toUpperCase(),
+        timeString: now.getHours() + ":" + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes() + " - " + now.getDate() + "/" + (now.getMonth() + 1),
+        message: message.replace(/\n/g, '<br>'),
+        // Chỉ lưu ảnh nếu preview đang hiển thị và có dữ liệu
+        imageHtml: (preview.style.display === "block" && preview.src) ? `<img src="${preview.src}" class="post-image" alt="Ảnh">` : "",
+        likes: 0,
+        liked: false,
+        comments: []
+    };
+
+    posts.unshift(newPostData); // Thêm vào đầu danh sách
+    saveAndRender();
+
+    // Xóa sạch form sau khi đăng
+    nameInput.value = "";
+    messageInput.value = "";
+    fileInput.value = "";
+    preview.src = "";
+    preview.style.display = "none";
+}
     // --- TƯƠNG TÁC THÍCH & BÌNH LUẬN ---
     function toggleLike(index) {
         posts[index].liked = !posts[index].liked;

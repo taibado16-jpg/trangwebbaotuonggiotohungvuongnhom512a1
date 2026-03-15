@@ -983,6 +983,17 @@
         @keyframes fall {
             to { transform: translateY(100vh) rotate(360deg); }
         }
+        .reveal-text span {
+        opacity: 0;
+        display: inline-block;
+        /* "forwards" giúp chữ hiện xong thì ở lại luôn, không bị mất đi */
+        animation: fadeInLetter 0.5s forwards;
+    }
+
+    @keyframes fadeInLetter {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
     </style>
 </head>
 <body>
@@ -1229,7 +1240,7 @@
             </div>
         </div>
 
-        <div class="image-box">
+        <div class="image-box reveal-text">
             <img src="thong-tin-ve-le-hoi-den-hung-2025-5-1344x840.jpg" width="100%" style="border-radius: 15px; border: 2px solid #d4af37;">
             <p style="font-size: 0.8rem; text-align: center; font-style: italic;">Lễ hội Đền Hùng luôn sôi động với nhiều chương trình, tiết mục, trò chơi</p>
         </div>
@@ -1245,7 +1256,7 @@
             </p>
         </div>
 
-        <div class="image-box">
+        <div class="image-box reveal-text">
             <img src="https://laodongthudo.vn/stores/news_dataimages/thuthuy/042015/23/16/den-hung-8-zing-1-wtoj20150423163717.6860840.JPG" width="100%" style="border-radius: 15px; border: 2px solid #d4af37;">
             <p style="font-size: 0.8rem; text-align: center; font-style: italic;">Toàn cảnh Đền Hùng từ trên cao</p>
         </div>
@@ -1260,7 +1271,7 @@
         </div>
     </section>
 
-    <section id="ynghia" style="font-family: Arial, sans-serif; max-width: 1000px; margin: auto; padding: 20px;">
+    <section id="ynghia" class="reveal-text" style="font-family: Arial, sans-serif; max-width: 1000px; margin: auto; padding: 20px;">
         <h2> Ý Nghĩa Ngày Giỗ Tổ</h2>   
         <div style="display: flex; gap: 20px; align-items: stretch; margin-bottom: 25px; flex-wrap: wrap;">
             <div style="flex: 1; min-width: 300px; border: 2px solid #8b0000; padding: 20px; border-radius: 12px; display: flex; align-items: center; background-color: #fff;">
@@ -1299,7 +1310,7 @@
         </div>
         
          <h2>Thành Viên Nhóm Dự Án</h2>
-        <div class="team-grid">
+        <div class="team-grid reveal-text">
             <div class="member-card">
                 <div class="member-image-container">
                     <img src="e7ff4168-0488-408d-8cda-a3b444046d8c.jpg" alt="Nguyễn Minh Thuận">
@@ -1390,7 +1401,7 @@
         </div>   
     </section>
 
-    <section id="gopy" class="container" style="background: transparent; box-shadow: none; padding: 0;">
+    <section id="gopy" class="container reveal-text" style="background: transparent; box-shadow: none; padding: 0;">
         <div class="social-feed-container">
             <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 5px;">Sổ lưu bút</h2>
             
@@ -1417,7 +1428,7 @@
             <div style="height: 2px; width: 100px; background: #d4af37;"></div><i style="color: #8b0000; margin: 0 15px; font-size: 1.5rem;">❖</i><div style="height: 2px; width: 100px; background: #d4af37;"></div>
         </div>
 
-        <div class="feedback-section">
+        <div class="feedback-section reveal-text">
             <h2 style="text-align: center; margin-top: 0; margin-bottom: 5px; font-size: 1.8rem;">Gửi Góp Ý Về Trạm</h2>
             <p style="text-align: center; color: #666; font-size: 0.95rem; margin-bottom: 25px;">Hệ thống sẽ tự động gửi email xác nhận về Gmail bạn nhập bên dưới.</p>
             
@@ -1447,6 +1458,17 @@
 </div>
 
 <script>
+        const textElement = document.getElementById('text');
+        const words = textElement.innerText.split(' '); // Chia câu thành "several" từ
+        textElement.innerHTML = ''; // Xóa nội dung cũ
+
+        words.forEach((word, index) => {
+            let span = document.createElement('span');
+            span.innerText = word + ' ';
+            // Mỗi từ sẽ hiện trễ hơn từ trước đó 0.1 giây
+            span.style.animationDelay = `${index * 0.1}s`; 
+            textElement.appendChild(span);
+        });
     // --- KHỞI TẠO BỘ NHỚ LƯU TRỮ (LOCAL STORAGE) CHO MẠNG XÃ HỘI ---
     let posts = JSON.parse(localStorage.getItem('guestbook_posts')) || [];
 

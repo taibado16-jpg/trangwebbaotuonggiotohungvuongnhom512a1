@@ -980,20 +980,35 @@
             color: #ffd700; font-size: 14px; text-shadow: 0 0 5px rgba(212,175,55,0.5);
             animation: fall linear forwards;
         }
-        @keyframes fall {
-            to { transform: translateY(100vh) rotate(360deg); }
-        }
-        .reveal-text span {
+        /* Định nghĩa hiệu ứng */
+@keyframes fadeInPage {
+    from {
         opacity: 0;
-        display: inline-block;
-        /* "forwards" giúp chữ hiện xong thì ở lại luôn, không bị mất đi */
-        animation: fadeInLetter 0.5s forwards;
+        transform: translateY(20px); /* Đẩy nhẹ từ dưới lên */
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-    @keyframes fadeInLetter {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+/* Áp dụng vào thẻ body hoặc container chính */
+body {
+    animation: fadeInPage 1.5s ease-out;
+}
+        /* Trạng thái mặc định: Ẩn và hơi đẩy xuống dưới */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out; /* Tốc độ hiện ra (0.8 giây) */
+}
+
+/* Trạng thái khi cuộn chuột tới: Hiện lên và về vị trí cũ */
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
     </style>
 </head>
 <body>
@@ -1310,7 +1325,7 @@
         </div>
         
          <h2>Thành Viên Nhóm Dự Án</h2>
-        <div class="team-grid reveal-text">
+        <div class="team-grid reveal">
             <div class="member-card">
                 <div class="member-image-container">
                     <img src="e7ff4168-0488-408d-8cda-a3b444046d8c.jpg" alt="Nguyễn Minh Thuận">
@@ -1401,7 +1416,7 @@
         </div>   
     </section>
 
-    <section id="gopy" class="container reveal-text" style="background: transparent; box-shadow: none; padding: 0;">
+    <section id="gopy" class="container reveal" style="background: transparent; box-shadow: none; padding: 0;">
         <div class="social-feed-container">
             <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 5px;">Sổ lưu bút</h2>
             
@@ -1428,7 +1443,7 @@
             <div style="height: 2px; width: 100px; background: #d4af37;"></div><i style="color: #8b0000; margin: 0 15px; font-size: 1.5rem;">❖</i><div style="height: 2px; width: 100px; background: #d4af37;"></div>
         </div>
 
-        <div class="feedback-section reveal-text">
+        <div class="feedback-section reveal">
             <h2 style="text-align: center; margin-top: 0; margin-bottom: 5px; font-size: 1.8rem;">Gửi Góp Ý Về Trạm</h2>
             <p style="text-align: center; color: #666; font-size: 0.95rem; margin-bottom: 25px;">Hệ thống sẽ tự động gửi email xác nhận về Gmail bạn nhập bên dưới.</p>
             
@@ -1458,17 +1473,6 @@
 </div>
 
 <script>
-        const textElement = document.getElementById('text');
-        const words = textElement.innerText.split(' '); // Chia câu thành "several" từ
-        textElement.innerHTML = ''; // Xóa nội dung cũ
-
-        words.forEach((word, index) => {
-            let span = document.createElement('span');
-            span.innerText = word + ' ';
-            // Mỗi từ sẽ hiện trễ hơn từ trước đó 0.1 giây
-            span.style.animationDelay = `${index * 0.1}s`; 
-            textElement.appendChild(span);
-        });
     // --- KHỞI TẠO BỘ NHỚ LƯU TRỮ (LOCAL STORAGE) CHO MẠNG XÃ HỘI ---
     let posts = JSON.parse(localStorage.getItem('guestbook_posts')) || [];
 
@@ -1678,6 +1682,29 @@
             btn.style.background = "#8b0000";
         });
     }
+    function reveal() {
+  var reveals = document.querySelectorAll(".reveal");
+
+  for (var i = 0; i < reveals.length; i++) {
+    var windowHeight = window.innerHeight;
+    var elementTop = reveals[i].getBoundingClientRect().top;
+    var elementVisible = 150; // Khoảng cách từ dưới lên để bắt đầu hiện nội dung
+
+    if (elementTop < windowHeight - elementVisible) {
+      reveals[i].classList.add("active");
+    } else {
+      // Nếu muốn hiệu ứng lặp lại mỗi khi cuộn lên/xuống thì bỏ comment dòng dưới:
+      // reveals[i].classList.remove("active");
+    }
+  }
+}
+
+// Chạy hàm mỗi khi người dùng cuộn chuột
+window.addEventListener("scroll", reveal);
+
+// Chạy hàm ngay khi vừa load trang (để hiện các phần ở trên cùng)
+reveal();
+
 </script>
 
 <footer class="modern-footer">
